@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { JobComponent } from './job/job.component';
 import { HomeComponent } from './home/home.component';
 import { JobDetailComponent } from './job-detail/job-detail.component';
+import { CustomerModule } from './customer/customer.module';
+import { ContentTypeInterceptor } from './interceptors/ContentTypeInterceptor';
 
 @NgModule({
   declarations: [
@@ -20,9 +22,10 @@ import { JobDetailComponent } from './job-detail/job-detail.component';
     FormsModule,
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CustomerModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: ContentTypeInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

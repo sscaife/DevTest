@@ -1,0 +1,23 @@
+<app-customer-create (saveEvent)="customerSaved($event);"></app-customer-create>
+
+<h2>Customers</h2>
+
+<table width="0">
+  <thead>
+    <tr><th>Id</th><th>Customer Name</th><th>Customer Type</th><th>&nbsp;</th></tr>
+  </thead>
+  <tr *ngFor="let cust of customers$ | async">
+    <td>
+      {{cust.id}}
+    </td>
+    <td>
+      {{cust.name}}
+    </td>
+    <td>
+      {{cust.customerType}}
+    </td>
+    <td>
+      <a routerLink="/customer/view/{{cust.id}}">open</a>
+    </td>
+  </tr>
+</table>

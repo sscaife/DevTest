@@ -1,0 +1,12 @@
+<h2>Create Customer</h2>
+
+<form [formGroup]="customerForm" (ngSubmit)="createCustomer()">
+  <label for="name">Customer Name</label>
+  <input type="text" formControlName="name"/>
+  <select name="customerType" formControlName="customerType" placeholder="Please Select">
+    <option [value]="null" selected disabled>Please select</option>
+    <option *ngFor="let cust of customerTypes$ | async" [value]="cust.id">{{cust.name}}</option>
+  </select>
+
+  <button type="submit" [disabled]="!customerForm.valid">Add Job</button>
+</form>

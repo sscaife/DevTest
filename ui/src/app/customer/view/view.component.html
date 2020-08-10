@@ -1,0 +1,11 @@
+<div *ngIf="(customer$ | async) as cust">
+  <p>Customer Id: {{cust.id}}</p>
+  <p>Customer Name: {{cust.name}}</p>
+  <p>Customer Type: {{cust.customerType}}</p>
+
+  <a [routerLink]="['/customer']">Back</a>
+</div>
+
+<div *ngIf="!(customer$ | async)">
+  ...loading
+</div>

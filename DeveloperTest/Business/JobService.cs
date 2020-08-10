@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Runtime.InteropServices;
 using DeveloperTest.Business.Interfaces;
 using DeveloperTest.Database;
 using DeveloperTest.Database.Models;
@@ -17,22 +18,38 @@ namespace DeveloperTest.Business
 
         public JobModel[] GetJobs()
         {
-            return context.Jobs.Select(x => new JobModel
-            {
-                JobId = x.JobId,
-                Engineer = x.Engineer,
-                When = x.When
-            }).ToArray();
+            return JobModels().ToArray();
         }
 
         public JobModel GetJob(int jobId)
         {
-            return context.Jobs.Where(x => x.JobId == jobId).Select(x => new JobModel
-            {
-                JobId = x.JobId,
-                Engineer = x.Engineer,
-                When = x.When
-            }).SingleOrDefault();
+            var query = JobModels();
+
+            return query.SingleOrDefault(o => o.JobId == jobId);
+        }
+
+        private IQueryable<JobModel> JobModels()
+        {
+            var query = from job in context.Set<Job>()
+                join cust in context.Set<Customer>()
+                    on job.CustomerId equals cust.Id into custs
+                from c in custs.DefaultIfEmpty()
+                join custType in context.Set<CustomerType>()
+                    on c.CustomerTypeId equals custType.Id into custTypes
+                from ct in custTypes.DefaultIfEmpty()
+                select new JobModel
+                {
+                    JobId = job.JobId,
+                    Engineer = job.Engineer,
+                    When = job.When,
+                    Customer = new CustomerModel
+                    {
+                        Id = c.Id,
+                        Name = c.Name,
+                        CustomerType = ct.Name
+                    }
+                };
+            return query;
         }
 
         public JobModel CreateJob(BaseJobModel model)
@@ -40,7 +57,8 @@ namespace DeveloperTest.Business
             var addedJob = context.Jobs.Add(new Job
             {
                 Engineer = model.Engineer,
-                When = model.When
+                When = model.When,
+                CustomerId = model.Customer
             });
 
             context.SaveChanges();

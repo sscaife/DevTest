@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { JobComponent } from './job/job.component';
 import { HomeComponent } from './home/home.component';
 import { JobDetailComponent } from './job-detail/job-detail.component';
-
+import { CustomerRoutingModule } from './customer/customer-routing.module';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,7 +13,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), CustomerRoutingModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
