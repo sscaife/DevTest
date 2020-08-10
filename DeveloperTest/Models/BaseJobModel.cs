@@ -8,6 +8,6 @@ namespace DeveloperTest.Models
 
         public DateTime When { get; set; }
 
-        public int Customer { get; set; }
+        public int CustomerId { get; set; }
     }
 }

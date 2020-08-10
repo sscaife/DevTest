@@ -58,7 +58,7 @@ namespace DeveloperTest.Business
             {
                 Engineer = model.Engineer,
                 When = model.When,
-                CustomerId = model.Customer
+                CustomerId = model.CustomerId
             });
 
             context.SaveChanges();
